@@ -1,0 +1,36 @@
+{
+  "name": "accounts",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "start:dev": "nodemon ./bin/www",
+    "compile:dev": "tsc -w",
+    "generate:migration": "knex migrate:make migration_name --knexfile=./dist/database/knexfile.js",
+    "migrate": "knex migrate:up --knexfile=./dist/database/knexfile.js"
+  },
+  "dependencies": {
+    "@types/jsonwebtoken": "^8.5.8",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.0",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^1.0.3",
+    "morgan": "~1.9.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/express": "^4.17.13",
+    "@types/http-errors": "^1.8.2",
+    "@types/morgan": "^1.9.3",
+    "nodemon": "^2.0.15",
+    "typescript": "^4.6.2"
+  }
+}
