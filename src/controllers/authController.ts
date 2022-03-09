@@ -1,4 +1,4 @@
-import { Request, Response, CookieOptions } from "express";
+import { Request, Response, CookieOptions, NextFunction } from "express";
 import { validateLogin, validateSignup } from "../validation/validation";
 import jwt from "jsonwebtoken";
 import { IUser } from "../typings/typings";
@@ -20,8 +20,15 @@ const validatePassword = async (
   return await bcrypt.compare(loginPass, dbPass);
 };
 
+const decodeToken = (token: string) => {
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET as string);
+  } catch (e: any) {
+    throw new Error("Token is missing or invalid");
+  }
+};
+
 const sendToken = (res: Response, statusCode: number, user: IUser) => {
-  console.log(process.env.JWT_SECRET as string);
   const token = generateToken(user.id as unknown as string);
 
   const expires = new Date(Date.now() + 20 * 24 * 60 * 1000);
@@ -69,7 +76,9 @@ export const signup = async (req: Request, res: Response) => {
 
     const newUser = data[0];
 
-    newUser.password = undefined;
+    console.log(newUser);
+
+    // newUser.password = undefined;
 
     sendToken(res, 201, newUser);
   } catch (e: any) {
@@ -109,6 +118,69 @@ export const login = async (req: Request, res: Response) => {
 
     sendToken(res, 200, user[0]);
   } catch (e) {
+    res.send(e);
+  }
+};
+
+export const protectRoute = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    let token: string | undefined;
+
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    }
+
+    if (!token) {
+      return res.status(401).json({
+        status: "unAuthorized",
+        message: "Bearer Token missing or invalid",
+      });
+    }
+    // console.log({ decodedToken });
+
+    const data = decodeToken(token);
+
+    console.log({ data });
+
+    const decodedToken: any = jwt.verify(
+      token as string,
+      process.env.JWT_SECRET as string
+    );
+
+    if (!decodedToken) {
+      return res.status(404).json({
+        status: "unAuthorized",
+        message: "Bearer Token missing or invalid",
+      });
+    }
+
+    const user = await UserRepository.getUser(decodedToken.id);
+
+    if (!user[0]) {
+      return res.status(404).json({
+        status: "unAuthorized",
+        message: "User no longer exist",
+      });
+    }
+
+    req.user = user[0];
+
+    next();
+  } catch (e: any) {
+    if (e.message && e.message === "Token is missing or invalid") {
+      return res.status(401).json({
+        status: "unAuthorized",
+        message: e.message,
+      });
+    }
+
     res.send(e);
   }
 };

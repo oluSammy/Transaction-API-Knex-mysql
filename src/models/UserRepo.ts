@@ -1,16 +1,20 @@
 import knexConnection from "../database/db";
 import { IUser } from "../typings/typings";
+import { v4 as uuidv4 } from "uuid";
 
 class UserRepository {
   static async createUser(user: IUser) {
     try {
-      const insertedData = await knexConnection("users").insert({
+      const id = uuidv4();
+
+      await knexConnection("users").insert({
         name: user.username,
         email: user.email,
         password: user.password,
+        id,
       });
 
-      return this.getUser(insertedData[0]);
+      return this.getUser(id);
     } catch (e: any) {
       throw new Error(e);
     }
@@ -24,7 +28,7 @@ class UserRepository {
     }
   }
 
-  static async getUser(id: number) {
+  static async getUser(id: string) {
     try {
       return await knexConnection("users").where({ id }).select("*");
     } catch (e: any) {

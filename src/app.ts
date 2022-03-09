@@ -6,7 +6,7 @@ import logger from "morgan";
 import knexConnection from "./database/db";
 import { config } from "dotenv";
 
-import usersRouter from "./routes/users";
+import indexRouter from "./routes";
 
 const app = express();
 
@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/users", usersRouter);
+app.use("/api/v1/", indexRouter);
 
 app.use("/", (req: Request, res: Response, next: NextFunction) => {
   res.send("API ___🔥___ is up and running  🚀");
