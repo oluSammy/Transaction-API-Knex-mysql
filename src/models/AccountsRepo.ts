@@ -4,7 +4,7 @@ import { IAccount } from "../typings/typings";
 class AccountRepository {
   static async createAccount(userId: string) {
     try {
-      const prevAcct = await this.getAccountByUserId(userId);
+      const prevAcct = await this.getPrevAccount(userId);
 
       if (prevAcct.length > 0) {
         throw new Error(
@@ -15,20 +15,28 @@ class AccountRepository {
 
       const lastAcct = await this.getLastAccountNumber();
 
-      const acctNo = await this.generateAccountNumber(
-        lastAcct[0].account_number
-      );
+      const arg = lastAcct[0] ? lastAcct[0].account_number : undefined;
+
+      const acctNo = await this.generateAccountNumber(arg);
 
       await knexConnection("accounts").insert({
         user_id: userId,
         account_number: acctNo,
-        balance: 50000,
+        balance: 0,
       });
 
       return await this.getAccountByUserId(userId);
     } catch (e: any) {
       throw new Error(e);
     }
+  }
+
+  static async getPrevAccount(id: string) {
+    const account = await knexConnection("accounts")
+      .select("*")
+      .where({ user_id: id });
+
+    return account;
   }
 
   static async fundAccount(userId: string, amount: number) {
@@ -84,9 +92,6 @@ class AccountRepository {
 
   static async checkFUndsAvailability(userId: string, amount: number) {
     const acct = await this.getAccountByUserId(userId);
-
-    console.log(acct[0].balance < amount);
-    console.log(amount);
 
     if (acct[0].balance < amount) {
       throw new Error("Insufficient funds");

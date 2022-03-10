@@ -1,9 +1,8 @@
-import createError, { HttpError } from "http-errors";
+import { HttpError } from "http-errors";
 import express, { NextFunction, Request, Response } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import knexConnection from "./database/db";
 import { config } from "dotenv";
 
 import indexRouter from "./routes";
@@ -11,16 +10,6 @@ import indexRouter from "./routes";
 const app = express();
 
 config();
-
-knexConnection
-  .select(1 + 1)
-  .then(() => {
-    console.log("Connected to database");
-  })
-  .catch((e) => {
-    console.log(e);
-    console.log("unable to Connect");
-  });
 
 // view engine setup
 app.set("views", path.join(__dirname, "../views"));
@@ -63,4 +52,4 @@ app.use(function (
   res.render("error");
 });
 
-module.exports = app;
+export default app;

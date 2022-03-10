@@ -8,11 +8,9 @@ import {
 
 export const createAccount = async (req: Request, res: Response) => {
   try {
-    const acct = await AccountRepository.createAccount(req.user!.id);
+    const acct = await AccountRepository.createAccount(req.user!.id!);
 
-    console.log({ acct });
-
-    res.status(200).json({ status: "success", data: acct });
+    res.status(201).json({ status: "success", data: acct[0] });
   } catch (e: any) {
     res.status(500).json({ status: "error", message: e.message });
   }
@@ -30,7 +28,7 @@ export const fundAccount = async (req: Request, res: Response) => {
     }
 
     const acct = await AccountRepository.fundAccount(
-      req.user!.id,
+      req.user!.id!,
       req.body.amount
     );
 
@@ -52,11 +50,11 @@ export const withdraw = async (req: Request, res: Response) => {
     }
 
     const acct = await AccountRepository.withdrawFunds(
-      req.user!.id,
+      req.user!.id!,
       req.body.amount
     );
 
-    res.status(201).json({ status: "success", data: acct });
+    res.status(201).json({ status: "success", data: acct[0] });
   } catch (e: any) {
     res.status(500).json({ status: "error", message: e.message });
   }
@@ -74,7 +72,7 @@ export const transferFunds = async (req: Request, res: Response) => {
     }
 
     const data = await AccountRepository.transferFunds(
-      req.user!.id,
+      req.user!.id!,
       req.body.receiverAcct,
       req.body.amount
     );
@@ -87,7 +85,7 @@ export const transferFunds = async (req: Request, res: Response) => {
 
 export const getMyBalance = async (req: Request, res: Response) => {
   try {
-    const acct = await AccountRepository.getAccountByUserId(req.user!.id);
+    const acct = await AccountRepository.getAccountByUserId(req.user!.id!);
 
     res.status(200).json({ status: "success", data: acct[0] });
   } catch (e: any) {

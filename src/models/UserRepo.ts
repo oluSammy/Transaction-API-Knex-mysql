@@ -11,7 +11,7 @@ class UserRepository {
         id: user.id,
       });
 
-      return this.getUser(user.id);
+      return this.getUser(user.id!);
     } catch (e: any) {
       throw new Error(e);
     }

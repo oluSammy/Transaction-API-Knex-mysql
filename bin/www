@@ -4,9 +4,12 @@
  * Module dependencies.
  */
 
-var app = require("../dist/app");
+var app = require("../dist/app").default;
 var debug = require("debug")("accounts:server");
 var http = require("http");
+const knexConnection = require("../dist/database/db").default;
+
+// console.log(knexConnection);
 
 /**
  * Get port from environment and store in Express.
@@ -25,7 +28,20 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, () => {
+  console.log("Server listening on port " + port);
+});
+
+knexConnection
+  .select(1 + 1)
+  .then(() => {
+    console.log("Connected to database");
+  })
+  .catch((e) => {
+    console.log(e);
+    console.log("unable to Connect");
+  });
+
 server.on("error", onError);
 server.on("listening", onListening);
 

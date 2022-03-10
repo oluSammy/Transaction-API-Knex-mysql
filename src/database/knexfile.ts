@@ -16,6 +16,21 @@ const config: { [key: string]: Knex.Config } = {
     },
   },
 
+  test: {
+    client: "mysql",
+    connection: {
+      host: "localhost",
+      port: 3306,
+      user: "root",
+      password: "password",
+      database: "accounts_test",
+    },
+    migrations: {
+      tableName: "migrations",
+      directory: "../../migrations",
+    },
+  },
+
   staging: {
     client: "mysql",
     connection: {

@@ -6,7 +6,7 @@ import accountRouter from "./accounts";
 
 const router = express.Router();
 
-router.use("/users", userRouter);
+router.use("/auth", userRouter);
 router.use("/accounts", protectRoute, accountRouter);
 
 export default router;

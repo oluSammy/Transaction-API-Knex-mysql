@@ -1,8 +1,10 @@
 export interface IUser {
-  id: string;
+  id?: string;
   username: string;
   email: string;
   password?: string;
+  token?: string;
+  account_number?: string;
 }
 
 export interface IAccount {
@@ -12,4 +14,10 @@ export interface IAccount {
   user_id: string;
   created_at: Date;
   updated_at: Date;
+}
+
+export interface ITestConstant {
+  userOne: IUser;
+  userTwo: IUser;
+  BASE_URL: string;
 }
