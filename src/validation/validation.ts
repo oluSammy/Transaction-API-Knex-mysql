@@ -33,3 +33,34 @@ export const validateLogin = (obj: Record<string, any>) => {
 
   return schema.validate(obj);
 };
+
+export const validateFundAccount = (obj: Record<string, any>) => {
+  const schema = Joi.object({
+    amount: Joi.number()
+      .min(100)
+      .error(() => new Error("min amount is 100"))
+      .required(),
+  });
+
+  return schema.validate(obj);
+};
+
+export const validateWithdrawAcct = (obj: Record<string, any>) => {
+  const schema = Joi.object({
+    amount: Joi.number().required(),
+  });
+
+  return schema.validate(obj);
+};
+
+export const validateTransfer = (obj: Record<string, any>) => {
+  const schema = Joi.object({
+    amount: Joi.number()
+      .min(100)
+      .error(() => new Error("min amount is 100"))
+      .required(),
+    receiverAcct: Joi.string().required(),
+  });
+
+  return schema.validate(obj);
+};

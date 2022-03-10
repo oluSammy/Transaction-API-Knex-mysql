@@ -1,9 +1,10 @@
 import { Request, Response, CookieOptions, NextFunction } from "express";
 import { validateLogin, validateSignup } from "../validation/validation";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { IUser } from "../typings/typings";
 import bcrypt from "bcryptjs";
 import UserRepository from "../models/UserRepo";
+import { v4 as uuidv4 } from "uuid";
 
 const generateToken = (id: string): string => {
   const token = jwt.sign({ id }, process.env.JWT_SECRET as string, {
@@ -72,6 +73,7 @@ export const signup = async (req: Request, res: Response) => {
       username,
       email,
       password: hashedPassword,
+      id: uuidv4(),
     });
 
     const newUser = data[0];
@@ -92,7 +94,7 @@ export const login = async (req: Request, res: Response) => {
     const { error } = validateLogin(req.body);
 
     if (error) {
-      return res.status(404).json({
+      return res.status(400).json({
         status: "error",
         message: `${error.message}`,
       });
@@ -145,14 +147,7 @@ export const protectRoute = async (
     }
     // console.log({ decodedToken });
 
-    const data = decodeToken(token);
-
-    console.log({ data });
-
-    const decodedToken: any = jwt.verify(
-      token as string,
-      process.env.JWT_SECRET as string
-    );
+    const decodedToken: any = decodeToken(token);
 
     if (!decodedToken) {
       return res.status(404).json({
