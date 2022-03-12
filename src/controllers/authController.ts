@@ -78,7 +78,7 @@ export const signup = async (req: Request, res: Response) => {
 
     const newUser = data[0];
 
-    console.log(newUser);
+    // console.log(newUser);
 
     // newUser.password = undefined;
 
