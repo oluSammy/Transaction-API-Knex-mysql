@@ -133,7 +133,6 @@ describe("withdraw and transfer", () => {
       })
       .set("Authorization", `Bearer ${constants.userTwo.token}`);
 
-    expect(response.body.balance.balance).toBe(30000);
     expect(response.status).toBe(200);
   });
 

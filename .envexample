@@ -1,0 +1,17 @@
+JWT_SECRET=example_secret
+JWT_EXPIRES=10d
+host=localhost
+user=root
+password=example_password
+database=example_db
+
+
+test_database=example_test-db
+
+
+PRODUCTION_USERNAME=production_user
+PRODUCTION_PASSWORD=production_password
+PRODUCTION_HOST=production_host
+PRODUCTION_DATABASE=production_db
+
+NODE_ENV=development
