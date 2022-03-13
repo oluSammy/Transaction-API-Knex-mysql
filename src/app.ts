@@ -11,6 +11,8 @@ const app = express();
 
 config();
 
+console.log({ nodeEnv: process.env.NODE_ENV });
+
 // view engine setup
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "jade");
