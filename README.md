@@ -18,7 +18,7 @@ funds transfer and balance check
 
 ## Documentation
 
-- [Design doc](https://docs.google.com/document/d/1pcEB_PmFdi_UnoS6lPsB72PjguznduVowZC2zHXOgCs/edit?usp=sharing)
+- [Postman doc](https://documenter.getpostman.com/view/13917788/UVsJvmqB)
 
 ## Running Tests
 
