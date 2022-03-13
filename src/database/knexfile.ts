@@ -19,6 +19,21 @@ const config: { [key: string]: Knex.Config } = {
     },
   },
 
+  production: {
+    client: "mysql",
+    connection: {
+      host: process.env.PRODUCTION_HOST,
+      port: 3306,
+      user: process.env.PRODUCTION_USERNAME,
+      password: process.env.PRODUCTION_PASSWORD,
+      database: process.env.PRODUCTION_DATABASE,
+    },
+    migrations: {
+      tableName: "migrations",
+      directory: "../../migrations",
+    },
+  },
+
   test: {
     client: "mysql",
     connection: {

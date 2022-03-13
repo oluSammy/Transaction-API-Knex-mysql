@@ -9,7 +9,9 @@
     "generate:migration": "knex migrate:make migration_name --knexfile=./dist/database/knexfile.js",
     "migrate": "knex migrate:latest --knexfile=./dist/database/knexfile.js",
     "migrate:down": "knex migrate:down --knexfile=./dist/database/knexfile.js",
-    "test": "jest"
+    "test": "jest",
+    "compile": "tsc",
+    "heroku-postbuild": "npm run compile"
   },
   "dependencies": {
     "@types/jsonwebtoken": "^8.5.8",
