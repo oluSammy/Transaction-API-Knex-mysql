@@ -6,6 +6,7 @@ funds transfer and balance check
 ##
 
 - [API URL](https://accounts-mysql.herokuapp.com/)
+- [github repo](https://github.com/oluSammy/Transaction-API-Knex-mysql)
 
 ## Tech Stack
 

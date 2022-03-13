@@ -77,7 +77,7 @@ export const transferFunds = async (req: Request, res: Response) => {
       req.body.amount
     );
 
-    res.status(200).json({ status: "Transfer Successful", balance: data[0] });
+    res.status(200).json({ status: "Transfer Successful" });
   } catch (e: any) {
     res.status(500).json({ status: "error", message: e.message });
   }
