@@ -1,4 +1,5 @@
-# Todo Application
+# Transaction API
+## Node, express, Mysql, knex
 
 A API for accounts and transaction management, features includes authentication, account funding, withdrawing of funds,
 funds transfer and balance check
